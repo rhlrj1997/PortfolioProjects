@@ -95,3 +95,45 @@ JOIN Portfolio_project..CovidVaccinations vac
 	and dea.date = vac.date
 where dea.continent is not null
 order by 2,3
+
+--using cte creating a rolling sum and percentage of vaccination per population
+
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, sum(convert(int,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as rollingcountvaccinations
+from Portfolio_project..CovidDeaths dea
+JOIN Portfolio_project..CovidVaccinations vac
+	On dea.location = vac.location 
+	and dea.date = vac.date
+where dea.continent is not null
+order by 2,3
+
+
+--using cte
+
+with popVsvac (continent, location, date, population, vaccinations, rollingcountvac)
+as
+(
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, sum(convert(int,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as rollingcountvaccinations
+from Portfolio_project..CovidDeaths dea
+JOIN Portfolio_project..CovidVaccinations vac
+	On dea.location = vac.location 
+	and dea.date = vac.date
+where dea.continent is not null
+)
+select*, (rollingcountvac/population)*100 as rollingPercentVaccinated
+from popVsvac
+where location like '%India%'
+
+
+
+-- creating view to store data for later vizualisation
+
+create view PercentPeopleVaccinated as
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, sum(convert(int,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as rollingcountvaccinations
+from Portfolio_project..CovidDeaths dea
+JOIN Portfolio_project..CovidVaccinations vac
+	On dea.location = vac.location 
+	and dea.date = vac.date
+where dea.continent is not null
+
+select *
+from PercentPeopleVaccinated
