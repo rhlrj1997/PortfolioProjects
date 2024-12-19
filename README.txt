@@ -1,6 +1,6 @@
 Project_1
-- Covid deatha and vaccination data set
-- Used SQL to clean and create vizualisation table which will later used in tableau
+- Covid deaths and vaccination data set 2019
+- Used SQL to explore and create vizualisation table which will later used in tableau
 
 Project_2
 - Movies dataset
