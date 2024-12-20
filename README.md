@@ -1,5 +1,5 @@
 Project_1: SQL Data Exploration
-- Covid deaths and vaccination data set 2019.[Covid dataset here](https://ourworldindata.org/covid-deaths) 
+- Covid deaths and vaccination data set 2019. [Covid dataset here](https://ourworldindata.org/covid-deaths) 
 - Prepare dataset using Excel.
 - Import dataset SQLServer.
 - Create queries to explore dataset. 
